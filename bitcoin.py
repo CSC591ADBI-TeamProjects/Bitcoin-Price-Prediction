@@ -46,10 +46,36 @@ def computeDelta(wt, X, Xi):
     float
         The output of equation 6, a prediction of the average price change.
     """
+
     # YOUR CODE GOES HERE
-    pass
+    num = 0.0
+    den = 0.0
+    for i in xrange(0,len(Xi)):
+        Yi = Xi.iloc[i][-1]
+        xi = Xi.iloc[i][0:-1]
+        s_X_xi = similarity(X[0:-1],xi)
+        num += float(Yi*math.exp(weight*s_X_xi))
+        den += float(math.exp(weight*s_X_xi))
+    return float(num)/den
 
+def similarity(a,b):
+    std_a = std(a)
+    std_b = std(b)
+    mu_a = float(sum(a))/len(a)
+    mu_b = float(sum(b))/len(b)
+    M = len(b)
+    sumab = 0
+    for i in xrange(0,len(b)):
+        sumab += (a[i]-mu_a)*(b[i] -mu_b)
+    return float(sumab)/(len(b)*std_a*std_b)
+    
 
+def std(a):
+    suma = 0
+    mu = float(sum(a))/len(a)
+    for ai in a:
+        suma += (ai - mu)**2
+    return float(suma)/len(a)
 
 # Perform the Bayesian Regression to predict the average price change for each dataset of train2 using train1 as input. 
 # These will be used to estimate the coefficients (w0, w1, w2, and w3) in equation 8.
@@ -58,11 +84,11 @@ trainDeltaP90 = np.empty(0)
 trainDeltaP180 = np.empty(0)
 trainDeltaP360 = np.empty(0)
 for i in xrange(0,len(train1_90.index)) :
-  trainDeltaP90 = np.append(trainDeltaP90, computeDelta(weight,train2_90.iloc[i],train1_90))
+    trainDeltaP90 = np.append(trainDeltaP90, computeDelta(weight,train2_90.iloc[i],train1_90))
 for i in xrange(0,len(train1_180.index)) :
-  trainDeltaP180 = np.append(trainDeltaP180, computeDelta(weight,train2_180.iloc[i],train1_180))
+    trainDeltaP180 = np.append(trainDeltaP180, computeDelta(weight,train2_180.iloc[i],train1_180))
 for i in xrange(0,len(train1_360.index)) :
-  trainDeltaP360 = np.append(trainDeltaP360, computeDelta(weight,train2_360.iloc[i],train1_360))
+    trainDeltaP360 = np.append(trainDeltaP360, computeDelta(weight,train2_360.iloc[i],train1_360))
 
 
 # Actual deltaP values for the train2 data.
@@ -82,6 +108,7 @@ trainData = pd.DataFrame(d)
 # Use the statsmodels ols function.
 # Use the variable name model for your fitted model
 # YOUR CODE HERE
+
 
 # Print the weights from the model
 print model.params
