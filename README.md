@@ -1,6 +1,6 @@
 # Bitcoin-Price-Prediction
 Implement the Bayesian Regression model to predict the future price
-variation of bitcoin by following the methogology [1] as:
+variation of bitcoin by following the methogology [1][2] as:
 
 1. Compute the price variations (Δp 1 , Δp 2 , and Δp 3 ) for train2 using train1 as input to the Bayesian Regression equation (Equations 6). Make sure to use the similarity metric
 (Equation 9) in place of the Euclidean distance in Bayesian Regression (Equation 6).
