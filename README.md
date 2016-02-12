@@ -11,6 +11,6 @@ dataset are computed in the same way as they are computed for train2 dataset –
 4. Once the price variations are predicted, compute the mean squared error (MSE) for the test dataset (the test dataset has 50 vectors => 50 predictions).
 
 
-References:
-[1] Shah, Devavrat, and Kang Zhang. "Bayesian regression and Bitcoin." Communication, Control, and Computing (Allerton), 2014 52nd Annual Allerton Conference on. IEEE, 2014.
+References:<br/>
+[1] Shah, Devavrat, and Kang Zhang. "Bayesian regression and Bitcoin." Communication, Control, and Computing (Allerton), 2014 52nd Annual Allerton Conference on. IEEE, 2014.<br/>
 [2] The project is part of CSC 591 Algorithms for Data Guided Business Intelligence by Dr. Nagiza Samatova.
