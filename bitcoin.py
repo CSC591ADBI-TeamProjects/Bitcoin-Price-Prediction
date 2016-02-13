@@ -72,7 +72,7 @@ def similarity(a,b):
         sumab += (a[i]-mu_a)*(b[i] -mu_b)
     return float(sumab)/(len(b)*std_a*std_b)
     
-
+#i think this is for variance, sqrt missing
 def std(a):
     suma = 0
     mu = float(sum(a))/len(a)
