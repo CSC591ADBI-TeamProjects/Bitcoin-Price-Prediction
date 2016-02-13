@@ -54,6 +54,7 @@ def computeDelta(wt, X, Xi):
         Yi = Xi.iloc[i][-1]
         xi = Xi.iloc[i][0:-1]
         s_X_xi = similarity(X[0:-1],xi)
+        #shouldn't it be "wt" instead of "weight" in following 2 lines?
         num += float(Yi*math.exp(weight*s_X_xi))
         den += float(math.exp(weight*s_X_xi))
     return float(num)/den
