@@ -55,30 +55,36 @@ def computeDelta(wt, X, Xi):
         xi = Xi.iloc[i][0:-1]
         s_X_xi = similarity(X[0:-1],xi)
         #shouldn't it be "wt" instead of "weight" in following 2 lines?
-        num += float(Yi*math.exp(weight*s_X_xi))
-        den += float(math.exp(weight*s_X_xi))
+        num += float(Yi*math.exp(wt*s_X_xi))
+        den += float(math.exp(wt*s_X_xi))
     return float(num)/den
 
 def similarity(a,b):
     #is similarity not simply:
     #sim = ((a-a.mean())*(b-b.mean())).sum()/float(len(a)*a.std()*b.std())
-    std_a = std(a)
-    std_b = std(b)
-    mu_a = float(sum(a))/len(a)
-    mu_b = float(sum(b))/len(b)
+    
+    #std_a = std(a)
+    #std_b = std(b)
+    #mu_a = float(sum(a))/len(a)
+    #mu_b = float(sum(b))/len(b)
+    
+    std_a = np.std(a)
+    std_b = np.std(b)
+    mu_a = np.mean(a)
+    mu_b = np.mean(b)
     M = len(b)
     sumab = 0
-    for i in xrange(0,len(b)):
-        sumab += (a[i]-mu_a)*(b[i] -mu_b)
-    return float(sumab)/(len(b)*std_a*std_b)
+    for z in xrange(0, M):
+        sumab += (a[z] - mu_a) * (b[z] - mu_b)
+    return float(sumab) / (M*std_a*std_b)
     
 #i think this is for variance, sqrt missing
-def std(a):
-    suma = 0
-    mu = float(sum(a))/len(a)
-    for ai in a:
-        suma += (ai - mu)**2
-    return float(suma)/len(a)
+#def std(a):
+#    suma = 0
+#    mu = float(sum(a))/len(a)
+#    for ai in a:
+#        suma += (ai - mu)**2
+#    return float(suma)/len(a)
 
 # Perform the Bayesian Regression to predict the average price change for each dataset of train2 using train1 as input. 
 # These will be used to estimate the coefficients (w0, w1, w2, and w3) in equation 8.
@@ -120,11 +126,21 @@ print model.params
 # Perform the Bayesian Regression to predict the average price change for each dataset of test using train1 as input.
 # This should be similar to above where it was computed for train2.
 # YOUR CODE HERE
+testDeltaP90 = np.empty(0)
+testDeltaP180 = np.empty(0)
+testDeltaP360 = np.empty(0)
+for i in xrange(0,len(train1_90.index)) :
+    testDeltaP90 = np.append(testDeltaP90, computeDelta(weight,test_90.iloc[i],train1_90))
+for i in xrange(0,len(train1_180.index)) :
+    testDeltaP180 = np.append(testDeltaP180, computeDelta(weight,test_180.iloc[i],train1_180))
+for i in xrange(0,len(train1_360.index)) :
+    testDeltaP360 = np.append(testDeltaP360, computeDelta(weight,test_360.iloc[i],train1_360))
 
 
 # Actual deltaP values for test data.
 # YOUR CODE HERE (use the right variable names so the below code works)
-
+testDeltaP = np.asarray(test_360[['Yi']])
+testDeltaP = np.reshape(testDeltaP, -1)
 
 
 # Combine all the test data
@@ -146,4 +162,4 @@ compareDF = pd.DataFrame(compare)
 # HINT: consider using the sm.mean_squared_error function
 MSE = 0.0
 # YOUR CODE HERE
-print "The MSE is %f" % (MSE)
+print "The MSE is %f" % (sm.mean_squared_error(compareDF['Actual'], compareDF['Predicted']))
