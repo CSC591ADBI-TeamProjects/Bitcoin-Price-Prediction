@@ -111,7 +111,7 @@ trainData = pd.DataFrame(d)
 # Use the statsmodels ols function.
 # Use the variable name model for your fitted model
 # YOUR CODE HERE
-
+model = smf.ols(formula = 'deltaP ~ deltaP90 + deltaP180 + deltaP360', data = trainData).fit()
 
 # Print the weights from the model
 print model.params
