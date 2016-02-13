@@ -59,6 +59,8 @@ def computeDelta(wt, X, Xi):
     return float(num)/den
 
 def similarity(a,b):
+    #is similarity not simply:
+    #sim = ((a-a.mean())*(b-b.mean())).sum()/float(len(a)*a.std()*b.std())
     std_a = std(a)
     std_b = std(b)
     mu_a = float(sum(a))/len(a)
